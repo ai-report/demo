@@ -32,5 +32,5 @@ python==3.12.4
 
 ## how to use
 
-1. run `AI_report\backend\backend_app.py`
+1. run `AI_report\backend\main.py`
 2. open `AI_report\frontend\ancient_city_frontend.html`
