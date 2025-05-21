@@ -1,0 +1,9 @@
+/venv/
+/.venv/
+temp*.py
+temp*.ipynb
+__pycache__/
+/codes2code/
+.cache_ggshield
+.env
+.vscode/

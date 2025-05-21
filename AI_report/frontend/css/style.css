@@ -1,0 +1,220 @@
+body {
+    font-family: 'Noto Sans TC', 'KaiTi', 'SimSun', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+    padding: 20px;
+    padding-bottom: 180px; /* 為固定的詩歌區域預留一些空間 */
+    background-color: #fdf6e3; 
+    color: #586e75;
+    position: relative; 
+    min-height: 100vh; 
+}
+h1 { color: #cb4b16; margin-bottom: 20px; font-weight: 700; font-size: 1.75rem; }
+#controls { margin-bottom: 15px; display: flex; gap: 10px; }
+#controls button {
+    padding: 10px 18px;
+    background-color: #268bd2;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+#controls button:hover { background-color: #2aa198; }
+#game-time-display { margin-bottom: 15px; font-size: 1.2em; color: #859900; font-weight: 500; }
+
+#game-container { display: flex; gap: 25px; width: 100%; max-width: 1200px; }
+/* #city-map-container {
+    flex-grow: 1; position: relative; width: 700px; height: 450px;
+    background-color: #eee8d5;
+    border: 3px solid #93a1a1;
+    border-radius: 12px;
+    overflow: visible;
+} */
+#city-map-container {
+    flex-grow: 1;
+    position: relative;
+    width: 700px;
+    height: 450px;
+    /* 下面三行新增：設定地圖為背景圖 */
+    background-image: url('../assets/images/map.png');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    /* 如果還想保留底色，可留下一行 fallback */
+    background-color: #eee8d5;
+
+    border: 3px solid #93a1a1;
+    border-radius: 12px;
+    overflow: visible;
+}
+.location {
+    position: absolute; padding: 12px; background-color: #fdf6e3;
+    border: 2px solid #b58900;
+    border-radius: 8px; font-size: 0.9rem;
+    text-align: center; box-shadow: 3px 3px 7px rgba(0,0,0,0.15);
+    color: #000000;
+}
+.agent {
+    position: absolute; width: 35px; height: 35px;
+    border-radius: 50%; border: 2px solid #ffffff;
+    box-shadow: 0 0 8px rgba(0,0,0,0.3);
+    display: flex; justify-content: center; align-items: center;
+    font-size: 0.85rem; color: white; font-weight: bold;
+    transition: left 1s linear, top 1s linear; z-index: 10;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+.speech-bubble {
+    position: absolute; background: white; border-radius: .5em; padding: 10px 15px;
+    font-size: 0.8rem; color: #586e75; border: 1px solid #93a1a1;
+    min-width: 60px; max-width: 200px; word-wrap: break-word;
+    bottom: 100%; left: 50%; transform: translateX(-50%) translateY(-12px);
+    display: none; z-index: 100; box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+}
+.speech-bubble:after {
+    content: ''; position: absolute; bottom: 0; left: 50%; width: 0; height: 0;
+    border: 12px solid transparent; border-top-color: #93a1a1;
+    border-bottom: 0; margin-left: -12px; margin-bottom: -12px;
+}
+ .speech-bubble-inner:after {
+    content: ''; position: absolute; bottom: 0; left: 50%; width: 0; height: 0;
+    border: 11px solid transparent; border-top-color: white;
+    border-bottom: 0; margin-left: -11px; margin-bottom: -10px;
+}
+#info-panel-container { width: 380px; display: flex; flex-direction: column; gap: 15px; }
+.agent-info-panel {
+    padding: 18px; background-color: #f5f5dc; border: 1px solid #93a1a1;
+    border-radius: 10px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+}
+.agent-info-panel h2 { margin-top: 0; color: #cb4b16; border-bottom: 1px solid #eee8d5; padding-bottom: 8px; font-size: 1.25rem;}
+.agent-info-panel p { margin: 10px 0; font-size: 0.9rem; }
+.agent-info-panel strong { color: #268bd2; }
+.agent-info-panel ul { font-size: 0.85rem; max-height: 180px; overflow-y: auto; padding-left: 20px; list-style: circle; }
+
+#loc-河邊           { top: 180px; left: 380px; background-color: rgba(255,255,255,0.5); }
+#loc-書院           { top:  40px; left: 450px; background-color: rgba(255,255,255,0.5); }
+#loc-衙門           { top: 220px; left: 600px; background-color: rgba(255,255,255,0.5); }
+#loc-城門           { top: 370px; left: 430px; background-color: rgba(255,255,255,0.5); }
+#loc-酒館           { top: 160px; left: 520px; width:80px; background-color: rgba(255,255,255,0.5); }
+#loc-診所           { top: 120px; left: 630px; width:90px; background-color: rgba(255,255,255,0.5); }
+#loc-李清照家       { top: 230px; left: 140px; background-color: rgba(255,255,255,0.5); }
+#loc-李清照家的庭院 { top: 170px; left:  60px; width:120px; background-color: rgba(255,255,255,0.5); }
+#loc-莊子家         { top: 300px; left: 300px; background-color: rgba(255,255,255,0.5); }
+
+.modal-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background-color: rgba(0, 0, 0, 0.65); display: none;
+    align-items: center; justify-content: center; z-index: 1000;
+}
+.modal-content {
+    background-color: #fdf6e3; color: #586e75; padding: 2.5rem; border-radius: 1rem;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2); width: 90%; max-width: 550px;
+    text-align: center; position: relative; border: 2px solid #93a1a1;
+}
+.modal-title { font-size: 1.6rem; font-weight: 700; color: #cb4b16; margin-bottom: 1.5rem; }
+.modal-message { margin-bottom: 2rem; font-size: 1.1rem; }
+.modal-controls button {
+    background-color: #2aa198; color: white; padding: 0.75rem 1.25rem;
+    border: none; border-radius: 0.5rem; cursor: pointer; margin: 0 0.5rem;
+    font-size: 1rem; transition: background-color 0.3s ease;
+}
+.modal-controls button:hover { background-color: #859900; }
+.modal-close-button {
+    position: absolute; top: 1rem; right: 1.5rem; background: none; border: none;
+    font-size: 2rem; color: #93a1a1; cursor: pointer; line-height: 1;
+}
+.modal-close-button:hover { color: #586e75; }
+.message-box {
+    margin-top: 1rem; padding: 0.75rem; border-radius: 0.375rem; font-size: 0.875rem;
+}
+.message-box.error { background-color: #dc322f; color: white; }
+.message-box.info { background-color: #268bd2; color: white; }
+.message-box.warning { background-color: #b58900; color: white; }
+
+#poem-container {
+    position: fixed; 
+    bottom: 20px;    
+    left: 20px;      
+    width: 320px;    
+    max-height: 280px; 
+    padding: 15px;
+    background-color: rgba(238, 232, 213, 0.92); 
+    border: 1px solid #b58900; 
+    border-radius: 10px;
+    box-shadow: 2px 2px 10px rgba(0,0,0,0.15);
+    z-index: 900; 
+    overflow-y: auto; 
+    font-size: 0.9rem; 
+}
+#poem-container h3 {
+    color: #cb4b16;
+    font-size: 1.15rem; 
+    font-weight: 600;
+    margin-top: 0;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #d3c7b1;
+    text-align: center;
+}
+#poem-display {
+    font-size: 1em; 
+    color: #586e75;
+    white-space: pre-wrap; 
+    line-height: 1.7;
+    text-align: left; 
+}
+#poem-loading-message {
+    font-style: italic;
+    color: #859900;
+    text-align: center;
+}
+
+.status-box {
+    position: absolute;
+    width: 180px;
+    height: auto;
+    min-height: 100px;
+    background-color: #ffffffee;
+    border: 2px solid #aaa;
+    border-radius: 12px;
+    padding: 10px;
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 14px;
+    box-shadow: 2px 2px 8px rgba(0,0,0,0.15);
+}
+
+/* 四個角落座標 */
+#status-李白 {
+    top: 185px;
+    right: 280px;
+}
+#status-李清照 {
+    top: 185px;
+    right: 20px;
+}
+#status-李老師 {
+    bottom: 180px;
+    right: 280px;
+}
+#status-莊子 {
+    bottom: 180px;
+    right: 20px;
+}
+#status-李白, #status-李清照, #status-李老師, #status-莊子 {
+    width: 250px;
+    height: 200px;
+  }
+#city-map-container {
+    /* 其他既有屬性… */
+    /* 0：不放大；0：不收縮；700px：基底寬度 */
+    flex: 0 0 800px;
+    height: 0 0 450px;     /* 或你想要的固定高度 */
+  }
+  img {
+    position: absolute;
+    transform: translate(-50%, -50%);
+  } 
+  

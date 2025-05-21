@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>古代城市 AI 代理模擬</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+
+    <script src="./js/main.js" defer></script>
+</head>
+<body>
+    <h1>古代城市 AI 代理模擬</h1>
+    <div id="controls">
+        <button id="prev-step-button">上一步</button>
+        <button id="play-pause-button">播放</button>
+        <button id="next-step-button">下一步</button>
+    </div>
+    <p id="game-time-display">時間: 卯時初刻</p>
+
+    <div id="game-container">
+        <div id="city-map-container">
+            <div id="loc-河邊" class="location" data-location-name="河邊">河邊</div>
+            <div id="loc-酒館" class="location" data-location-name="酒館">酒館</div>
+            <div id="loc-李清照家" class="location" data-location-name="李清照家">李清照家</div>
+            <div id="loc-李清照家的庭院" class="location" data-location-name="李清照家的庭院">李清照家的庭院</div>
+            <div id="loc-莊子家" class="location" data-location-name="莊子家">莊子家</div>
+            <div id="loc-城門" class="location" data-location-name="城門">城門</div>
+            <div id="loc-衙門" class="location" data-location-name="衙門">衙門</div>
+            <div id="loc-診所" class="location" data-location-name="診所">診所</div>
+            <div id="loc-書院" class="location" data-location-name="書院">書院</div>
+
+        </div>
+
+        <div id="status-panel" class="grid grid-cols-2 gap-2 ml-4 w-80">
+            <div id="status-李白" class="status-box border rounded-lg p-2 bg-white shadow">李白</div>
+            <div id="status-李清照" class="status-box border rounded-lg p-2 bg-white shadow">李清照</div>
+            <div id="status-李老師" class="status-box border rounded-lg p-2 bg-white shadow">李老師</div>
+            <div id="status-莊子" class="status-box border rounded-lg p-2 bg-white shadow">莊子</div>
+          </div>
+
+        <div id="info-panel-container"></div>
+        <!-- <svg id="draw-overlay"
+            style="position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none;">
+        </svg> -->
+    </div>
+
+    <!-- <button id="export-coords">輸出座標</button>
+    <button id="reset-path">重設路徑</button>
+        <pre id="coords-output"></pre> -->
+
+    <!-- <div id="poem-container">
+        <h3>每日詩篇</h3>
+        <div id="poem-display">
+            <p id="poem-loading-message">正在向 DeepSeek 請求一首詩...</p>
+        </div>
+    </div> -->
+
+    <audio id="eventAudioPlayer"></audio>
+
+    <div id="locationEventModal" class="modal-overlay">
+        <div class="modal-content">
+            <button id="closeEventModalButton" class="modal-close-button">&times;</button>
+            <h3 id="eventModalTitle" class="modal-title">事件觸發！</h3>
+            <p id="eventModalMessage" class="modal-message">代理人已抵達特定地點。</p>
+            <div class="modal-controls">
+                <button id="eventModalPlayPauseButton">播放音訊</button>
+            </div>
+            <div id="eventModalMessageBox" class="message-box" style="display: none;"></div>
+        </div>
+    </div>
+</body>
+</html>
